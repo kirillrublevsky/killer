@@ -6,3 +6,5 @@ services:
     container_name: killer
     image: kirillvr/killer:latest
     restart: on-failure
+    ports:
+      - 1313:8080
