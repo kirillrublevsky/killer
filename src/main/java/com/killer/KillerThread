@@ -1,0 +1,33 @@
+package com.killer;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.protocol.HttpContext;
+
+import java.util.concurrent.Future;
+
+public class KillerThread extends Thread {
+    private final CloseableHttpAsyncClient client;
+    private final HttpContext context;
+    private final String url;
+
+    public KillerThread(CloseableHttpAsyncClient client, String url) {
+        this.client = client;
+        this.context = HttpClientContext.create();
+        this.url = url;
+    }
+
+    @Override
+    public void run() {
+        try {
+            HttpGet request = new HttpGet(url);
+            Future<HttpResponse> future = client.execute(request, context, null);
+            HttpResponse response = future.get();
+            System.out.println(url + " " + response.getStatusLine().getStatusCode());
+        } catch (Exception e) {
+            System.out.println(url + " " + e.getMessage());
+        }
+    }
+}
