@@ -34,7 +34,7 @@ public class KillerScheduler {
     CloseableHttpAsyncClient client;
     List<String> urls;
 
-    @PostConstruct
+//    @PostConstruct
     private void init() throws IOReactorException {
         ConnectingIOReactor ioReactor = new DefaultConnectingIOReactor();
         PoolingNHttpClientConnectionManager cm = new PoolingNHttpClientConnectionManager(ioReactor);
@@ -45,12 +45,12 @@ public class KillerScheduler {
         urls = initializeUrls();
     }
 
-    @Scheduled(fixedRate = 300000L)
+//    @Scheduled(fixedRate = 300000L)
     public void reInitialize() {
         urls = initializeUrls();
     }
 
-    @Scheduled(fixedDelay = 1L)
+//    @Scheduled(fixedDelay = 1L)
     public void kill() {
         int size = Math.min(THREAD_COUNT, urls.size());
         for (int i = 0; i < size; i++) {
